@@ -1,0 +1,15 @@
+{
+  "name": "guardback",
+
+  "version": "1.0.0",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "uuid": "^10.0.0"
+  }
+}

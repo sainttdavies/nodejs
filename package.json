@@ -1,6 +1,5 @@
 {
   "name": "guardback",
-
   "version": "1.0.0",
   "main": "src/app.js",
   "scripts": {
@@ -10,6 +9,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "express": "^4.19.2",
     "uuid": "^10.0.0"
   }
 }

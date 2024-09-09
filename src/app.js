@@ -56,7 +56,7 @@ res.status(500).json({error: e.message});
 });
 
 app.get('/api/customers/:id/:test', async(req, res) => {
-  res.json({
+  console.log({
    requestParams: req.params,
    requestQuery: req.query
   });

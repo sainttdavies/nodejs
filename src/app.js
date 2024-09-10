@@ -12,6 +12,8 @@ if(process.env.NODE_ENV !== 'production'){
   require('dotenv').config();
 }
 
+
+
 const PORT = process.env.PORT || 3000; 
 const CONNECTION = process.env.CONNECTION;
 
@@ -41,12 +43,13 @@ const customer = new Customer({
 
 
 
+
+
+
 app.get("/", (req, res) => {
   res.send("Welcome!");
 });
-
 app.get("/api/customers", async(req, res) => {
- //console.log(await mongoose.connection.db.listCollections().toArray());
   try{
     const result = await Customer.find();
     res.send({ "customers": result});
@@ -54,26 +57,55 @@ app.get("/api/customers", async(req, res) => {
 res.status(500).json({error: e.message});
   };
 });
-
-app.get('/api/customers/:id/:test', async(req, res) => {
+app.get('/api/customers/:id', async(req, res) => {
   console.log({
    requestParams: req.params,
    requestQuery: req.query
   });
+  try{
+    const customerId = req.params.id;
+    console.log(customerId);
+    const customer = await Customer.findById(customerId);
+    console.log(customer);
+    if(!customer){
+      res.status(404).json({error: 'User not found'});
+    }else{
+      res.json({customer});
+    }
+  }catch(e){
+    res.status(500).json({error: 'something went wrong'});
+  }
 });
+
+
+
+
+app.put('/api/customers/:id', async(req, res) => {
+  try{
+    const customerId = req.params.id;
+    const result = await Customer.replaceOne({_id: customerId}, req.body);
+    console.log(result);
+    res.json({updatedCount: result.modifiedCount});
+  }catch(e){
+    res.status(500).json({error: 'aomething went wrong'});
+  };
+    
+});
+
+
+//app.delete('api/customer/:id'. async(req, res) => {
+//await 
+//});
+
+
 
 
 app.post("/", (req, res) => {
   res.send("This is a post request!");
 });
-
 app.post("/api/customers", async (req, res) => {
   console.log(req.body);
   const customer = new Customer(req.body
-    /* {
-      name: req.body.name,
-      industry: req.body.industry
-       }*/
     );
     try{
       await customer.save();

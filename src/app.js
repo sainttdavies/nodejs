@@ -40,15 +40,11 @@ const customer = new Customer({
 });
 
 
-
-
-
-
-
-
+//Get Api
 app.get("/", (req, res) => {
   res.send("Welcome!");
 });
+
 app.get("/api/customers", async(req, res) => {
   try{
     const result = await Customer.find();
@@ -57,6 +53,7 @@ app.get("/api/customers", async(req, res) => {
 res.status(500).json({error: e.message});
   };
 });
+
 app.get('/api/customers/:id', async(req, res) => {
   console.log({
    requestParams: req.params,
@@ -79,30 +76,37 @@ app.get('/api/customers/:id', async(req, res) => {
 
 
 
-
+//Put Api 
 app.put('/api/customers/:id', async(req, res) => {
   try{
     const customerId = req.params.id;
     const result = await Customer.replaceOne({_id: customerId}, req.body);
-    console.log(result);
     res.json({updatedCount: result.modifiedCount});
+    console.log(result);
   }catch(e){
-    res.status(500).json({error: 'aomething went wrong'});
+    res.status(500).json({error: 'something went wrong'});
   };
-    
+});
+
+//Delete Api
+app.delete('api/customers/:id', async(req, res) => {
+  try{
+    const customerId = req.params.id;
+    const result = await Customer.deleteOne({_id: customerId});
+    res.json({deletedCount: result.deletedCount});
+    console.log(result);
+  }catch(e){
+    res.status(500).json({error: 'Something went wrong' });
+  };
 });
 
 
-//app.delete('api/customer/:id'. async(req, res) => {
-//await 
-//});
 
-
-
-
+//Post Api
 app.post("/", (req, res) => {
   res.send("This is a post request!");
 });
+
 app.post("/api/customers", async (req, res) => {
   console.log(req.body);
   const customer = new Customer(req.body
@@ -114,7 +118,6 @@ app.post("/api/customers", async (req, res) => {
     res.status(400).json({error: e.message});
     };
 });
-
 
 
 

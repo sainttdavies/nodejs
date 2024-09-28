@@ -5,10 +5,13 @@ const customerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    industry: {
-        type: String,
-       
-    }
+    industry:String,
+    orders: [
+        {
+            description: String,
+            amountInCents: Number
+        }
+    ]
 });
 
 module.exports = mongoose.model('Customer', customerSchema);
